@@ -2,7 +2,14 @@
 $is_auth = rand(0, 1);
 
 $user_name = 'Edgar';
-$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
+$categories = [
+                'Доски и лыжи' => 'boards',
+                'Крепления' => 'attachment',
+                'Ботинки' => 'boots',
+                'Одежда' => 'clothing',
+                'Инструменты' => 'tools',
+                'Разное' => 'other'
+            ];
 $lots_info = [
     [
         'title' => '2014 Rossignol District Snowboard',
@@ -95,8 +102,8 @@ $lots_info = [
         <ul class="promo__list">
             <!--список из массива категорий-->
             <?php foreach ($categories as $key => $value): ?>
-            <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html"><?=$value; ?></a>
+            <li class="promo__item promo__item--<?=$value; ?>">
+                <a class="promo__link" href="pages/all-lots.html"><?=$key; ?></a>
             </li>
             <?php endforeach; ?>
         </ul>
@@ -138,7 +145,7 @@ $lots_info = [
             <!--список из массива категорий-->
             <?php foreach ($categories as $key => $value): ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"><?=$value; ?></a>
+                <a href="pages/all-lots.html"><?=$key; ?></a>
             </li>
             <?php endforeach; ?>
         </ul>
