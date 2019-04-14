@@ -2,7 +2,14 @@
 $is_auth = rand(0, 1);
 
 $user_name = 'Edgar';
-$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
+$categories = [
+                'Доски и лыжи' => 'boards',
+                'Крепления' => 'attachment',
+                'Ботинки' => 'boots',
+                'Одежда' => 'clothing',
+                'Инструменты' => 'tools',
+                'Разное' => 'other'
+            ];
 $lots_info = [
     [
         'title' => '2014 Rossignol District Snowboard',
@@ -41,6 +48,15 @@ $lots_info = [
         'url_img' => 'img/lot-6.jpg'
     ]
 ];
+function get_formatted_amount($price) {
+    $price = ceil($price);
+
+    if ($price >= 1000) {
+        $price = number_format($price, 0, '', ' ');
+    }
+
+    return $price . '<b class="rub">р</b>';
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -95,8 +111,8 @@ $lots_info = [
         <ul class="promo__list">
             <!--список из массива категорий-->
             <?php foreach ($categories as $key => $value): ?>
-            <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html"><?=$value; ?></a>
+            <li class="promo__item promo__item--<?=$value; ?>">
+                <a class="promo__link" href="pages/all-lots.html"><?=$key; ?></a>
             </li>
             <?php endforeach; ?>
         </ul>
@@ -118,7 +134,7 @@ $lots_info = [
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?=$item['price']; ?><b class="rub">р</b></span>
+                            <span class="lot__cost"><?=get_formatted_amount($item['price']); ?></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
@@ -138,7 +154,7 @@ $lots_info = [
             <!--список из массива категорий-->
             <?php foreach ($categories as $key => $value): ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"><?=$value; ?></a>
+                <a href="pages/all-lots.html"><?=$key; ?></a>
             </li>
             <?php endforeach; ?>
         </ul>
