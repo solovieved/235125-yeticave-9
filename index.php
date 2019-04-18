@@ -78,10 +78,14 @@ $lots_info = [
     ]
 ];
 $title = 'Главная';
+$time_end = strtotime('tomorrow') - strtotime('now');
+$time = 3600;
 
 $content = include_template('index.php', [
     'categories' => $categories,
-    'lots_info' => $lots_info
+    'lots_info' => $lots_info,
+    'time_end' => $time_end,
+    'time' => $time
 ]);
 
 $layout_content = include_template('layout.php', [
