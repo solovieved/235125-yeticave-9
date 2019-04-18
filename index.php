@@ -1,15 +1,44 @@
 <?php
-$is_auth = rand(0, 1);
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
-$user_name = 'Edgar';
+require_once 'helpers.php';
+require_once 'functions.php';
+
+$is_auth = rand(0, 1);
+$user = [];
+
+if ($is_auth == 1) {
+    $user['name'] = 'Edgar';
+};
+
 $categories = [
-                'Доски и лыжи' => 'boards',
-                'Крепления' => 'attachment',
-                'Ботинки' => 'boots',
-                'Одежда' => 'clothing',
-                'Инструменты' => 'tools',
-                'Разное' => 'other'
-            ];
+    [
+        'name' => 'Доски и лыжи',
+        'class' => 'boards'
+    ],
+    [
+        'name' => 'Крепления',
+        'class' => 'attachment'
+    ],
+    [
+        'name' => 'Ботинки',
+        'class' => 'boots'
+    ],
+    [
+        'name' => 'Одежда',
+        'class' => 'clothing'
+    ],
+    [
+        'name' => 'Инструменты',
+        'class' => 'tools'
+    ],
+    [
+        'name' => 'Разное',
+        'class' => 'other'
+    ]
+];
 $lots_info = [
     [
         'title' => '2014 Rossignol District Snowboard',
@@ -48,28 +77,19 @@ $lots_info = [
         'url_img' => 'img/lot-6.jpg'
     ]
 ];
-function get_formatted_amount($price) {
-    $price = ceil($price);
-
-    if ($price >= 1000) {
-        $price = number_format($price, 0, '', ' ');
-    }
-
-    return $price . '<b class="rub">р</b>';
-}
 $title = 'Главная';
-
-require_once 'helpers.php';
 
 $content = include_template('index.php', [
     'categories' => $categories,
     'lots_info' => $lots_info
 ]);
+
 $layout_content = include_template('layout.php', [
     'title' => $title,
     'is_auth' => $is_auth,
     'content' => $content,
-    'categories' => $categories
+    'categories' => $categories,
+    'user' => $user
 ]);
 
 print($layout_content);

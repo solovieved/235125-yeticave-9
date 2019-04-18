@@ -4,8 +4,8 @@
     <ul class="promo__list">
         <!--список из массива категорий-->
         <?php foreach ($categories as $key => $value): ?>
-        <li class="promo__item promo__item--<?= $value; ?>">
-            <a class="promo__link" href="pages/all-lots.html"><?= htmlspecialchars($key); ?></a>
+        <li class="promo__item promo__item--<?= $value['class']; ?>">
+            <a class="promo__link" href="pages/all-lots.html"><?= $value['name']; ?></a>
         </li>
         <?php endforeach; ?>
     </ul>
@@ -22,12 +22,12 @@
                 <img src="<?= $item['url_img']; ?>" width="350" height="260" alt="">
             </div>
             <div class="lot__info">
-                <span class="lot__category"><?= htmlspecialchars($item['category']); ?></span>
+                <span class="lot__category"><?= $item['category']; ?></span>
                 <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?= htmlspecialchars($item['title']); ?></a></h3>
                 <div class="lot__state">
                     <div class="lot__rate">
                         <span class="lot__amount">Стартовая цена</span>
-                        <span class="lot__cost"><?= get_formatted_amount(htmlspecialchars($item['price'])); ?></span>
+                        <span class="lot__cost"><?= get_formatted_amount($item['price']); ?></span>
                     </div>
                     <div class="lot__timer timer">
                             12:23
