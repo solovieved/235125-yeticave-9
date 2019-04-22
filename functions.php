@@ -10,7 +10,7 @@ function get_formatted_amount($price) {
 
     if ($price >= 1000) {
             $price = number_format($price, 0, '', ' ');
-        }
+    }
 
     return $price . '<b class="rub">р</b>';
 }
