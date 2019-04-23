@@ -45,4 +45,3 @@ CREATE TABLE bet (
 	FOREIGN KEY (user) REFERENCES user(id),
 	FOREIGN KEY (lot) REFERENCES lot(id)
 );
-
