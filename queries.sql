@@ -49,7 +49,10 @@ JOIN category ON category.id = category
 WHERE lot.id = 3;
 
 /*самые новые, открытые лоты*/
-SELECT lot.name, lot.start_price, lot.image, category.name FROM lot
-JOIN category ON category.id = category
-ORDER BY lot.date_creation DESC
-LIMIT 3;
+SELECT lot.name, lot.start_price, lot.image, IFNULL(MAX(bet.price), 'не определена') AS price, category.name
+FROM lot
+JOIN category ON lot.category = category.id
+JOIN bet ON bet.lot = lot.id
+WHERE lot.date_completion >= NOW()
+GROUP BY lot.id
+ORDER BY lot.date_creation DESC;
