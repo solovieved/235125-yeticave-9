@@ -23,7 +23,7 @@ VALUES
 	('2019.03.18', 'Крепления Union Contact Pro 2015 года размер L/XL', 'Как новые.', 'img/lot-3.jpg', '8000', '2019.06.18', '350', '3', '2'),
 	('2019.03.16', 'Ботинки для сноуборда DC Mutiny Charocal', 'Самые удобные ботинки.', 'img/lot-4.jpg', '10999', '2019.06.16', '400', '4', '3'),
 	('2019.03.11', 'Куртка для сноуборда DC Mutiny Charocal', 'Стильно, модно, молодежно.', 'img/lot-5.jpg', '7500', '2019.06.11', '300', '1', '4'),
-	('2019.03.08', 'Маска Oakley Canopy', 'Лучше не найдёшь.', 'img/lot-5.jpg', '5400', '2019.06.08', '250', '2', '6');
+	('2019.03.08', 'Маска Oakley Canopy', 'Лучше не найдёшь.', 'img/lot-6.jpg', '5400', '2019.06.08', '250', '2', '6');
 
 INSERT INTO bet(date_bet, price, user, lot)
 VALUES
@@ -52,7 +52,7 @@ WHERE lot.id = 3;
 SELECT lot.name, lot.start_price, lot.image, IFNULL(MAX(bet.price), 'не определена') AS price, category.name
 FROM lot
 JOIN category ON lot.category = category.id
-JOIN bet ON bet.lot = lot.id
+LEFT JOIN bet ON bet.lot = lot.id
 WHERE lot.date_completion >= NOW()
 GROUP BY lot.id
 ORDER BY lot.date_creation DESC;
