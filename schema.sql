@@ -41,7 +41,7 @@ CREATE TABLE bet (
 	date_bet TIMESTAMP NOT NULL,
 	price INT NOT NULL,
 	user INT NOT NULL,
-	lot INT NOT NULL,
+	lot INT,
 	FOREIGN KEY (user) REFERENCES user(id),
 	FOREIGN KEY (lot) REFERENCES lot(id)
 );

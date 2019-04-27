@@ -6,6 +6,8 @@ ini_set('display_startup_errors', 1);
 require_once 'helpers.php';
 require_once 'functions.php';
 
+$link = mysqli_connect('localhost', 'root', '', 'yeticave_235125');
+mysqli_set_charset($link, 'utf8');
 $is_auth = rand(0, 1);
 $user = [];
 
@@ -13,70 +15,37 @@ if ($is_auth == 1) {
     $user['name'] = 'Edgar';
 };
 
-$categories = [
-    [
-        'name' => 'Доски и лыжи',
-        'class' => 'boards'
-    ],
-    [
-        'name' => 'Крепления',
-        'class' => 'attachment'
-    ],
-    [
-        'name' => 'Ботинки',
-        'class' => 'boots'
-    ],
-    [
-        'name' => 'Одежда',
-        'class' => 'clothing'
-    ],
-    [
-        'name' => 'Инструменты',
-        'class' => 'tools'
-    ],
-    [
-        'name' => 'Разное',
-        'class' => 'other'
-    ]
-];
-$lots_info = [
-    [
-        'title' => '2014 Rossignol District Snowboard',
-        'category' => 'Доски и лыжи',
-        'price' => '10999',
-        'url_img' => 'img/lot-1.jpg'
-    ],
-    [
-        'title' => 'DC Ply Mens 2016/2017 Snowboard',
-        'category' => 'Доски и лыжи',
-        'price' => '159999',
-        'url_img' => 'img/lot-2.jpg'
-    ],
-    [
-        'title' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-        'category' => 'Крепления',
-        'price' => '8000',
-        'url_img' => 'img/lot-3.jpg'
-    ],
-    [
-        'title' => 'Ботинки для сноуборда DC Mutiny Charocal',
-        'category' => 'Ботинки',
-        'price' => '10999',
-        'url_img' => 'img/lot-4.jpg'
-    ],
-    [
-        'title' => 'Куртка для сноуборда DC Mutiny Charocal',
-        'category' => 'Одежда',
-        'price' => '7500',
-        'url_img' => 'img/lot-5.jpg'
-    ],
-    [
-        'title' => 'Маска Oakley Canopy',
-        'category' => 'Разное',
-        'price' => '5400',
-        'url_img' => 'img/lot-6.jpg'
-    ]
-];
+$categories = [];
+$lots_info = [];
+
+if (!$link) {
+    print('ошибка соединения: ' . mysqli_connect_error());
+}
+else {
+    $sql_cat = 'SELECT name, character_code FROM category';
+    $result_cat = mysqli_query($link, $sql_cat);
+    if ($result_cat) {
+        $categories = mysqli_fetch_all($result_cat, MYSQLI_ASSOC);
+    }
+    else {
+        print('ошибка:' . mysqli_error($link));
+    }
+
+    $sql_lot ='SELECT lot.name, lot.start_price, lot.image, IFNULL(MAX(bet.price), "не определена") AS price, category.name AS category FROM lot
+        JOIN category ON lot.category = category.id
+        LEFT JOIN bet ON bet.lot = lot.id
+        WHERE lot.date_completion >= NOW()
+        GROUP BY lot.id
+        ORDER BY lot.date_creation DESC';
+    $result_lot = mysqli_query($link, $sql_lot);
+    if ($result_lot) {
+        $lots_info = mysqli_fetch_all($result_lot, MYSQLI_ASSOC);
+    }
+    else {
+        print('ошибка:' . mysqli_error($link));
+    }
+}
+
 $title = 'Главная';
 $time_end = strtotime('tomorrow') - strtotime('now');
 $time = 3600;
