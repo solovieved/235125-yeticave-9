@@ -12,4 +12,13 @@ $lots_info = [];
 if ($is_auth == 1) {
     $user['name'] = 'Edgar';
 };
+
+$sql_cat = "SELECT * FROM category
+    ORDER BY id";
+$result_cat = mysqli_query($link, $sql_cat);
+if ($result_cat) {
+    $categories = mysqli_fetch_all($result_cat, MYSQLI_ASSOC);
+}else {
+    mysqli_error($link);
+}
 ?>

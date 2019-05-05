@@ -4,15 +4,6 @@ require_once 'data.php';
 require_once 'helpers.php';
 require_once 'functions.php';
 
-$sql_cat = "SELECT name FROM category
-    ORDER BY id";
-$result_cat = mysqli_query($link, $sql_cat);
-if ($result_cat) {
-    $categories = mysqli_fetch_all($result_cat, MYSQLI_ASSOC);
-}else {
-    mysqli_error($link);
-}
-
 if (!isset($_GET['id'])) {
     http_response_code(404);
     $title = 'Страница не найдена';
