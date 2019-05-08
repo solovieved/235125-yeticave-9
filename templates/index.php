@@ -31,7 +31,7 @@
                                 <span class="lot__amount">Стартовая цена</span>
                                 <span class="lot__cost"><?= get_formatted_amount($item['start_price']); ?></span>
                             </div>
-                            <div class="lot__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $time) : ?>timer--finishing<?php endif; ?>">
+                            <div class="lot__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $hour) : ?>timer--finishing<?php endif; ?>">
                                 <?= get_time_completion($item['date_completion']); ?>
                             </div>
                         </div>
