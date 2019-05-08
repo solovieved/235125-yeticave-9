@@ -1,6 +1,8 @@
 <?php
 require_once 'init.php';
 
+$lots_info = [];
+
 if (!isset($_GET['id'])) {
     http_response_code(404);
     $title = 'Страница не найдена';
@@ -24,7 +26,7 @@ if (!isset($_GET['id'])) {
     $content = include_template('lot.php', [
         'categories' => $categories,
         'lots_info' => $lots_info,
-        'time' => $time
+        'time' => $hour
     ]);
 
     if (!$lots_info) {

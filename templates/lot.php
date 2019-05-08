@@ -15,7 +15,7 @@
             </div>
             <div class="lot-item__right">
                 <div class="lot-item__state">
-                    <div class="lot-item__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $time) : ?>timer--finishing<?php endif; ?>">
+                    <div class="lot-item__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $hour) : ?>timer--finishing<?php endif; ?>">
                         <?= get_time_completion($item['date_completion']); ?>
                     </div>
                     <div class="lot-item__cost-state">

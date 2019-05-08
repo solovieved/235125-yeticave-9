@@ -19,7 +19,7 @@ else {
 $content = include_template('index.php', [
     'categories' => $categories,
     'lots_info' => $lots_info,
-    'time' => $time
+    'time' => $hour
 ]);
 
 $title = 'Главная';

@@ -6,12 +6,12 @@ require_once 'helpers.php';
 require_once 'functions.php';
 $is_auth = rand(0, 1);
 $user = [];
-$time = 3600;
+$hour = 3600;
 $categories = [];
-$lots_info = [];
 $link = mysqli_connect('localhost', 'root', '', 'yeticave_235125');
 mysqli_set_charset($link, 'utf8');
 if ($is_auth == 1) {
+    $user['id'] = 1;
     $user['name'] = 'Edgar';
 };
 
