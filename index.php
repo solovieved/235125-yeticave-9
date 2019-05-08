@@ -1,8 +1,5 @@
 <?php
-require_once 'link.php';
-require_once 'data.php';
-require_once 'helpers.php';
-require_once 'functions.php';
+require_once 'init.php';
 
 $sql_lot ="SELECT lot.id, lot.name, lot.start_price, lot.image, lot.date_completion, category.name AS cat
     FROM lot

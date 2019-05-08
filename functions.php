@@ -5,7 +5,7 @@
  * @param $price число для форматирования
  * @return $price . '<b class="rub">р</b>' результат — отформатированное число со знаком рубля
  */
-function get_formatted_amount($price) {
+function get_formatted_amount($price) : string {
     $price = ceil($price);
 
     if ($price >= 1000) {
@@ -21,7 +21,7 @@ function get_formatted_amount($price) {
  * @param $date_completion дата окончания
  * @return $time время в нужном виде
  */
-function get_time_completion($date_completion) {
+function get_time_completion($date_completion) : string {
     $time = strtotime($date_completion) - strtotime('now');
     if ($time < 86400) {
         $time = gmdate('H:i', $time);

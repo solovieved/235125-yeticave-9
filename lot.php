@@ -1,8 +1,5 @@
 <?php
-require_once 'link.php';
-require_once 'data.php';
-require_once 'helpers.php';
-require_once 'functions.php';
+require_once 'init.php';
 
 if (!isset($_GET['id'])) {
     http_response_code(404);
