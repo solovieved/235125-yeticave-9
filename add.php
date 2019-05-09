@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = db_get_prepare_stmt($link, $sql, [$_POST['category']]);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
+        $category = '';
 
         if ($result) {
             $category = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -62,11 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tmp_name = $_FILES['lot-img']['tmp_name'];
         $file_type = mime_content_type($tmp_name);
         $limit_size = 2 * 1024 * 1024;
-        $path = $_FILES['lot-img']['name'];
-        $ext = pathinfo($path, PATHINFO_EXTENSION);
-        $rand_name = md5(time() . mt_rand(0, 9999));
-
-        if (!($file_type == 'image/jpeg' || $file_type == 'image/png')) {
+        if (!($file_type === 'image/jpeg' || $file_type === 'image/png')) {
             $errors['lot-img'] = 'Неверный формат файла';
         } elseif ($_FILES['lot-img']['size'] > $limit_size) {
             $errors['lot-img'] = "Размер файла не должен превышать 2MB";
@@ -82,8 +79,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'categories' => $categories
         ]);
     } else {
-        $furl = 'uploads/' . $rand_name . ".$ext";
-        move_uploaded_file($tmp_name, 'uploads/' . $rand_name . ".$ext");
+        $rand_name = md5(time() . mt_rand(0, 9999));
+        if ($file_type === 'image/jpeg') {
+            $ext = '.jpg';
+        }
+        if ($file_type === 'image/png') {
+            $ext = '.png';
+        }
+        $furl = 'uploads/' . $rand_name . "$ext";
+        move_uploaded_file($tmp_name, $furl);
         $sql = "INSERT INTO lot(date_creation, name, description, image, start_price, date_completion, bet_step, author, category)
         VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = db_get_prepare_stmt($link, $sql, [$lot_data['lot-name'], $lot_data['message'], $furl, $lot_data['lot-rate'], $lot_data['lot-date'], $lot_data['lot-step'], $user['id'], $lot_data['category']]);
@@ -93,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $lot_id = mysqli_insert_id($link);
             header("Location: lot.php?id=" . $lot_id);
         } else {
-            print('Технические неполадки на сайте.Мы уже работаем над устранением проблемы.');
+            exit('Технические неполадки на сайте.Мы уже работаем над устранением проблемы.');
         }
     }
 } else {
@@ -112,3 +116,4 @@ $layout_content = include_template('layout.php', [
 ]);
 
 print($layout_content);
+?>
