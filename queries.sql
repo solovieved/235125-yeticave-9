@@ -9,12 +9,12 @@ VALUES
   ('Инструменты', 'tools'),
   ('разное', 'other');
 
-INSERT INTO user(date_registration, email, name, password, avatar, contacts)
+INSERT INTO user(date_registration, email, name, password, contacts)
 VALUES
-	('2019.10.01', 'igor@gmail.com', 'Игорь', 'hinoji', 'img/user1.jpg', 'мобильный +375291234567'),
-	('2018.11.03', 'svet@gmail.com', 'Светлана', 'jnoiijp', 'img/user2.jpg', 'viber +79111222333'),
-	('2019.03.04', 'ilya@yandex.ru', 'Илья', 'wfwefji', 'img/user3.jpg', 'телефон для связи +71234567890'),
-	('2019.04.04', 'oleg@mail.ru', 'Олег', 'ryhjry', 'img/user4.jpg', 'telegram @oleg');
+	('2019.10.01', 'igor@gmail.com', 'Игорь', 'hinoji', 'мобильный +375291234567'),
+	('2018.11.03', 'svet@gmail.com', 'Светлана', 'jnoiijp', 'viber +79111222333'),
+	('2019.03.04', 'ilya@yandex.ru', 'Илья', 'wfwefji', 'телефон для связи +71234567890'),
+	('2019.04.04', 'oleg@mail.ru', 'Олег', 'ryhjry', 'telegram @oleg');
 
 INSERT INTO lot(date_creation, name, description, image, start_price, date_completion, bet_step, author, category)
 VALUES

@@ -10,7 +10,7 @@ $sql_lot ="SELECT lot.id, lot.name, lot.start_price, lot.image, lot.date_complet
 $result_lot = mysqli_query($link, $sql_lot);
 
 if ($result_lot) {
-    $lots_info = mysqli_fetch_all($result_lot, MYSQLI_ASSOC);
+    $lot_info = mysqli_fetch_all($result_lot, MYSQLI_ASSOC);
 }
 else {
     mysqli_error($link);
@@ -18,8 +18,8 @@ else {
 
 $content = include_template('index.php', [
     'categories' => $categories,
-    'lots_info' => $lots_info,
-    'time' => $hour
+    'lot_info' => $lot_info,
+    'time_to_close' => $time_to_close
 ]);
 
 $title = 'Главная';

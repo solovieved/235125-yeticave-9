@@ -18,7 +18,7 @@
         </div>
         <ul class="lots__list">
             <!--список из массива с товарами-->
-            <?php foreach ($lots_info as $key => $item) : ?>
+            <?php foreach ($lot_info as $key => $item) : ?>
                 <li class="lots__item lot">
                     <div class="lot__image">
                         <img src="<?= $item['image']; ?>" width="350" height="260" alt="">
@@ -31,7 +31,7 @@
                                 <span class="lot__amount">Стартовая цена</span>
                                 <span class="lot__cost"><?= get_formatted_amount($item['start_price']); ?></span>
                             </div>
-                            <div class="lot__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $hour) : ?>timer--finishing<?php endif; ?>">
+                            <div class="lot__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $time_to_close) : ?>timer--finishing<?php endif; ?>">
                                 <?= get_time_completion($item['date_completion']); ?>
                             </div>
                         </div>

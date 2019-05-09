@@ -3,7 +3,7 @@
         <?= include_template('menu-top.php', ['categories' => $categories]); ?>
     </nav>
     <section class="lot-item container">
-    <?php foreach ($lots_info as $key => $item) : ?>
+    <?php foreach ($lot_info as $key => $item) : ?>
         <h2><?= htmlspecialchars($item['name']); ?></h2>
         <div class="lot-item__content">
             <div class="lot-item__left">
@@ -15,7 +15,7 @@
             </div>
             <div class="lot-item__right">
                 <div class="lot-item__state">
-                    <div class="lot-item__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $hour) : ?>timer--finishing<?php endif; ?>">
+                    <div class="lot-item__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $time_to_close) : ?>timer--finishing<?php endif; ?>">
                         <?= get_time_completion($item['date_completion']); ?>
                     </div>
                     <div class="lot-item__cost-state">
