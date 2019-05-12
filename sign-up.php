@@ -1,9 +1,10 @@
 <?php
 require_once 'init.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $account_data = [];
-    $errors = [];
+$account_data = [];
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email_max_length = 64;
     $password_max_length = 128;
     $name_max_length = 64;
@@ -11,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $required = [
         'email' => 'Введите e-mail',
         'password' => 'Введите пароль',
-        'name' => 'Введите имя<',
+        'name' => 'Введите имя',
         'message' => 'Напишите как с вами связаться'
     ];
 
@@ -23,28 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if(empty($errors['email'])) {
-        $sql = "SELECT id FROM user WHERE email = ?";
-        $stmt = db_get_prepare_stmt($link, $sql, [$_POST['email']]);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $email = '';
-        if ($result) {
-            $email = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        }
-
-        if ($email) {
-            $errors['email'] = 'Такой email уже существует';
-        } elseif (strlen($account_data['email']) > $email_max_length) {
-            $errors['email'] = 'e-mail не должен превышать 64 символа';
-        } elseif (!filter_var($account_data['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Вы ввели некорректный email';
-        }
+    if(empty($errors['email']) && !filter_var($account_data['email'], FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Вы ввели некорректный email';
     }
 
-    if (empty($errors['email'])) {
+    if (empty($errors)) {
         $sql = "SELECT id FROM user WHERE email = ?";
-        $stmt = db_get_prepare_stmt($link, $sql, [$_POST['email']]);
+        $stmt = db_get_prepare_stmt($link, $sql, [$account_data['email']]);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $email = '';
@@ -70,13 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['message'] = 'Контактные данные не могут превышать 250 символов';
     }
 
-    if (count($errors)) {
-        $content = include_template('sign-up.php', [
-            'account_data' => $account_data,
-            'errors' => $errors,
-            'categories' => $categories
-        ]);
-    } else {
+    if (empty($errors)) {
         $password = password_hash($account_data['password'], PASSWORD_DEFAULT);
         $sql = "INSERT INTO user(date_registration, email, name, password, contacts)
         VALUES (NOW(), ?, ?, ?, ?)";
@@ -85,15 +65,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($res) {
             header("Location: login.php");
+            exit;
         } else {
             exit('Технические неполадки на сайте.Мы уже работаем над устранением проблемы.');
         }
     }
-} else {
-    $content = include_template('sign-up.php', [
-        'categories' => $categories,
-    ]);
 }
+
+$content = include_template('sign-up.php', [
+    'account_data' => $account_data,
+    'errors' => $errors,
+    'categories' => $categories
+]);
 
 $title = 'Регистрация';
 $layout_content = include_template('layout.php', [

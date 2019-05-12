@@ -7,7 +7,7 @@ VALUES
   ('Ботинки', 'boots'),
   ('Одежда', 'clothing'),
   ('Инструменты', 'tools'),
-  ('разное', 'other');
+  ('Разное', 'other');
 
 INSERT INTO user(date_registration, email, name, password, contacts)
 VALUES

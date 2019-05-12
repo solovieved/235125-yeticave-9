@@ -14,7 +14,7 @@
                 <p class="lot-item__description"><?= htmlspecialchars($item['description']); ?></p>
             </div>
             <div class="lot-item__right">
-                <div class="lot-item__state">
+                <div class="lot-item__state <?php if (!$_SESSION) : ?>visually-hidden<?php endif; ?>">
                     <div class="lot-item__timer timer <?php if (strtotime($item['date_completion']) - strtotime('now') <= $time_to_close) : ?>timer--finishing<?php endif; ?>">
                         <?= get_time_completion($item['date_completion']); ?>
                     </div>
