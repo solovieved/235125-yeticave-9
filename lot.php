@@ -40,7 +40,6 @@ if (!isset($_GET['id'])) {
 
 $layout_content = include_template('layout.php', [
     'title' => $title,
-    'is_auth' => $is_auth,
     'content' => $content,
     'categories' => $categories,
     'user' => $user

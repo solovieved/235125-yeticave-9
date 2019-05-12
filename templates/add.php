@@ -2,7 +2,7 @@
     <nav class="nav">
         <?= include_template('menu-top.php', ['categories' => $categories]); ?>
     </nav>
-    <form class="form form--add-lot container <?= isset($errors) ? "form--invalid" : ""; ?>" action="add.php" method="post" enctype="multipart/form-data">
+    <form class="form form--add-lot container <?= count($errors) ? "form--invalid" : ""; ?>" action="add.php" method="post" enctype="multipart/form-data">
         <h2>Добавление лота</h2>
         <div class="form__container-two">
             <div class="form__item <?= isset($errors['lot-name']) ? "form__item--invalid" : ""; ?>">

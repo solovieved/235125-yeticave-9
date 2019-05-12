@@ -1,8 +1,15 @@
 <?php
 require_once 'init.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $lot_data = [];
+if (!isset($_SESSION['user'])) {
+    http_response_code(403);
+    exit;
+}
+
+$lot_data = [];
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lot_name_max_length = 64;
     $day = 86400;
     $required = [
@@ -13,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'lot-step' => 'Введите шаг ставки',
         'lot-date' => 'Введите дату в формате ГГГГ-ММ-ДД'
     ];
-    $errors = [];
 
     foreach ($required as $key => $value) {
         if (isset($_POST[$key]) && !empty(trim($_POST[$key]))) {
@@ -72,13 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['lot-img'] = 'Добавьте изображение';
     }
 
-    if (count($errors)) {
-        $content = include_template('add.php', [
-            'lot_data' => $lot_data,
-            'errors' => $errors,
-            'categories' => $categories
-        ]);
-    } else {
+    if (empty($errors)) {
         $rand_name = md5(time() . mt_rand(0, 9999));
         if ($file_type === 'image/jpeg') {
             $ext = '.jpg';
@@ -100,16 +100,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit('Технические неполадки на сайте.Мы уже работаем над устранением проблемы.');
         }
     }
-} else {
-    $content = include_template('add.php', [
-        'categories' => $categories
-    ]);
 }
+
+$content = include_template('add.php', [
+    'lot_data' => $lot_data,
+    'errors' => $errors,
+    'categories' => $categories
+]);
 
 $title = 'Добаление лота';
 $layout_content = include_template('layout.php', [
     'title' => $title,
-    'is_auth' => $is_auth,
     'content' => $content,
     'categories' => $categories,
     'user' => $user
