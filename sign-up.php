@@ -1,6 +1,11 @@
 <?php
 require_once 'init.php';
 
+if (isset($_SESSION['user'])) {
+    header("Location: /");
+    exit;
+}
+
 $account_data = [];
 $errors = [];
 
@@ -64,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res = mysqli_stmt_execute($stmt);
 
         if ($res) {
-            header("Location: login.php");
+            header("Location: /login.php");
             exit;
         } else {
             exit('Технические неполадки на сайте.Мы уже работаем над устранением проблемы.');
@@ -81,10 +86,10 @@ $content = include_template('sign-up.php', [
 $title = 'Регистрация';
 $layout_content = include_template('layout.php', [
     'title' => $title,
-    'is_auth' => $is_auth,
     'content' => $content,
     'categories' => $categories,
-    'user' => $user
+    'user' => $user,
+    'link_index' => $link_index
 ]);
 
 print($layout_content);

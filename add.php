@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($tmp_name, $furl);
         $sql = "INSERT INTO lot(date_creation, name, description, image, start_price, date_completion, bet_step, author, category)
         VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = db_get_prepare_stmt($link, $sql, [$lot_data['lot-name'], $lot_data['message'], $furl, $lot_data['lot-rate'], $lot_data['lot-date'], $lot_data['lot-step'], $user['id'], $lot_data['category']]);
+        $stmt = db_get_prepare_stmt($link, $sql, [$lot_data['lot-name'], $lot_data['message'], $furl, $lot_data['lot-rate'], $lot_data['lot-date'], $lot_data['lot-step'], $_SESSION['user']['id'], $lot_data['category']]);
         $res = mysqli_stmt_execute($stmt);
 
         if ($res) {
@@ -113,7 +113,8 @@ $layout_content = include_template('layout.php', [
     'title' => $title,
     'content' => $content,
     'categories' => $categories,
-    'user' => $user
+    'user' => $user,
+    'link_index' => $link_index
 ]);
 
 print($layout_content);

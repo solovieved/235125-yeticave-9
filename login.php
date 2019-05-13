@@ -5,6 +5,7 @@ if (isset($_SESSION['user'])) {
     header("Location: /");
     exit;
 }
+
 $login_data = [];
 $errors = [];
 
@@ -34,13 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$user) {
             $errors['email'] = 'Пользователя с таким email не существует';
         }
+    }
 
+    if (empty($errors)) {
         if (password_verify($_POST['password'], $user[0]['password'])) {
             $_SESSION['user'] = $user[0];
             header("Location: /");
             exit;
-        }
-        else {
+        } else {
             $errors['password'] = 'Неверный пароль';
         }
     }
@@ -57,7 +59,8 @@ $layout_content = include_template('layout.php', [
     'title' => $title,
     'content' => $content,
     'categories' => $categories,
-    'user' => $user
+    'user' => $user,
+    'link_index' => $link_index
 ]);
 
 print($layout_content);

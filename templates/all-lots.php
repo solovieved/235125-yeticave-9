@@ -1,27 +1,15 @@
-<main class="container">
-    <section class="promo">
-        <h2 class="promo__title">Нужен стафф для катки?</h2>
-        <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
-        <ul class="promo__list">
-            <!--список из массива категорий-->
-            <?php foreach ($categories as $key => $value) : ?>
-                <li class="promo__item promo__item--<?= $value['character_code']; ?>">
-                    <a class="promo__link" href="all-lots.php?cat=<?= $value['id']?>"><?= $value['name']; ?></a>
-                </li>
-            <?php endforeach; ?>
-
-        </ul>
-    </section>
-    <section class="lots">
-        <div class="lots__header">
-            <h2>Открытые лоты</h2>
-        </div>
-        <ul class="lots__list">
-            <!--список из массива с товарами-->
+<main>
+    <nav class="nav">
+        <?= include_template('menu-top.php', ['categories' => $categories]); ?>
+    </nav>
+    <div class="container">
+        <section class="lots">
+            <h2>Все лоты в категории <span>«<?= $title; ?>»</span></h2>
+            <ul class="lots__list">
             <?php foreach ($lot_info as $key => $item) : ?>
                 <li class="lots__item lot">
                     <div class="lot__image">
-                        <img src="<?= $item['image']; ?>" width="350" height="260" alt="">
+                        <img src="<?= $item['image']; ?>" width="350" height="260" alt="Сноуборд">
                     </div>
                     <div class="lot__info">
                         <span class="lot__category"><?= $item['cat']; ?></span>
@@ -37,8 +25,9 @@
                         </div>
                     </div>
                 </li>
-            <?php endforeach; ?>
-
-        </ul>
-    </section>
+                <?php endforeach; ?>
+            </ul>
+        </section>
+        <?= $pagination; ?>
+    </div>
 </main>
