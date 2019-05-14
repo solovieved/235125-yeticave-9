@@ -29,8 +29,11 @@ $errors = [];
 $bet_data = [];
 $lot_id = $lot_info[0]['id'];
 $show_form = false;
-$id = $_GET['id'];
-if ($_SESSION) {
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+}
+
+if (isset($_SESSION['user']['id'])) {
     $user_id = $_SESSION['user']['id'];
     $show_form = true;
     $sql = "SELECT bet.user, bet.lot, user.id FROM bet

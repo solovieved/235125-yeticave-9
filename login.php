@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-	if (empty($errors)) {
+	if (empty($errors['email'])) {
         $sql = "SELECT * FROM user WHERE email = ?";
         $stmt = db_get_prepare_stmt($link, $sql, [trim($login_data['email'])]);
         mysqli_stmt_execute($stmt);
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (empty($errors)) {
+    if (empty($errors['password'])) {
         if (password_verify($_POST['password'], $user[0]['password'])) {
             $_SESSION['user'] = $user[0];
             header("Location: /");
