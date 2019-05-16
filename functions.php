@@ -44,4 +44,14 @@ function show_time($time) {
         return date('d.m.y', $time) .' в '. date('H:i', $time);
     }
 }
+
+function result($link, $sql) {
+    $result = mysqli_query($link, $sql);
+    if ($result) {
+        $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } else {
+        mysqli_error($link);
+    }
+    return $result;
+};
 ?>

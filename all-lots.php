@@ -17,7 +17,7 @@ $sql ="SELECT lot.id, lot.name, lot.start_price, IFNULL(MAX(bet.price), lot.star
     FROM lot
     JOIN category ON lot.category = category.id
     LEFT JOIN bet ON bet.lot = lot.id
-    WHERE category = $category_id && lot.date_completion >= NOW()
+    WHERE category = $category_id
     GROUP BY lot.id
     ORDER BY lot.date_creation DESC LIMIT $page_items OFFSET $offset";
 $result = mysqli_query($link, $sql);

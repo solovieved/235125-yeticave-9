@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors['password'])) {
-        if (password_verify($_POST['password'], $user[0]['password'])) {
+        if (isset($user[0]['password']) && password_verify($_POST['password'], $user[0]['password'])) {
             $_SESSION['user'] = $user[0];
             header("Location: /");
             exit;

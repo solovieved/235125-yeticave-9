@@ -49,11 +49,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if(empty($errors['lot-rate']) && !intval($lot_data['lot-rate']) > 0) {
+    if(empty($errors['lot-rate']) && intval($lot_data['lot-rate']) === 0) {
         $errors['lot-rate'] = 'Введите число больше 0';
     }
 
-    if(empty($errors['lot-step']) && !intval($lot_data['lot-step']) > 0) {
+    if(empty($errors['lot-step']) && intval($lot_data['lot-step']) === 0) {
         $errors['lot-step'] = 'Введите число больше 0';
     }
 
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['lot-date'] = 'Введите дату в верном формате';
     }
 
-    if (empty($errors['lot-date']) && strtotime($lot_data['lot-date']) - strtotime('today') <= $day) {
+    if (empty($errors['lot-date']) && strtotime($lot_data['lot-date']) - strtotime('today') < $day) {
         $errors['lot-date'] = 'Дата завершения должна быть больше текущей хотя бы на один день';
     }
 
@@ -86,16 +86,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($file_type === 'image/png') {
             $ext = '.png';
         }
-        $furl = 'uploads/' . $rand_name . "$ext";
+        $furl = 'uploads/' . $rand_name . $ext;
         move_uploaded_file($tmp_name, $furl);
-        $sql = "INSERT INTO lot(date_creation, name, description, image, start_price, date_completion, bet_step, author, category)
-        VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = db_get_prepare_stmt($link, $sql, [$lot_data['lot-name'], $lot_data['message'], $furl, $lot_data['lot-rate'], $lot_data['lot-date'], $lot_data['lot-step'], $_SESSION['user']['id'], $lot_data['category']]);
+        $sql = "INSERT INTO lot(name, description, image, start_price, date_completion, bet_step, author, category)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = db_get_prepare_stmt($link, $sql, [$lot_data['lot-name'], $lot_data['message'], $furl, intval($lot_data['lot-rate']), $lot_data['lot-date'], intval($lot_data['lot-step']), $_SESSION['user']['id'], $lot_data['category']]);
         $res = mysqli_stmt_execute($stmt);
 
         if ($res) {
             $lot_id = mysqli_insert_id($link);
-            header("Location: lot.php?id=" . $lot_id);
+            header("Location: /lot.php?id=" . $lot_id);
         } else {
             exit('Технические неполадки на сайте.Мы уже работаем над устранением проблемы.');
         }
