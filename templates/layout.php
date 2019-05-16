@@ -15,7 +15,7 @@
         <header class="main-header">
             <div class="main-header__container container">
                 <h1 class="visually-hidden">YetiCave</h1>
-                <a class="main-header__logo">
+                <a class="main-header__logo" <?= $link_index; ?>>
                     <img src="../img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
                 </a>
                 <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru" autocomplete="off">
@@ -27,17 +27,17 @@
 
                     <?php if ($_SESSION) : ?>
                         <div class="user-menu__logged">
-                            <p><?= htmlspecialchars($user[0]['name']); ?></p>
-                            <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
-                            <a class="user-menu__logout" href="logout.php">Выход</a>
+                            <p><?= htmlspecialchars($user); ?></p>
+                            <a class="user-menu__bets" href="/my-bets.php">Мои ставки</a>
+                            <a class="user-menu__logout" href="/logout.php">Выход</a>
                         </div>
                     <?php else : ?>
                         <ul class="user-menu__list">
                             <li class="user-menu__item">
-                                <a href="sign-up.php">Регистрация</a>
+                                <a href="/sign-up.php">Регистрация</a>
                             </li>
                             <li class="user-menu__item">
-                                <a href="login.php">Вход</a>
+                                <a href="/login.php">Вход</a>
                             </li>
                         </ul>
                     <?php endif; ?>
@@ -52,15 +52,7 @@
 
     <footer class="main-footer">
         <nav class="nav">
-            <ul class="nav__list container">
-                <!--список из массива категорий-->
-                <?php foreach ($categories as $key => $value) : ?>
-                    <li class="nav__item">
-                        <a href="pages/all-lots.html"><?= $value['name']; ?></a>
-                    </li>
-                <?php endforeach; ?>
-
-            </ul>
+            <?= include_template('menu-top.php', ['categories' => $categories]); ?>
         </nav>
         <div class="main-footer__bottom container">
             <div class="main-footer__copyright">

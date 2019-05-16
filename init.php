@@ -17,23 +17,13 @@ if (!$link) {
 
 $user = [];
 if (isset($_SESSION['user'])) {
-    $sql = "SELECT name FROM user WHERE id = ?";
-    $stmt = db_get_prepare_stmt($link, $sql, [$_SESSION['user']['id']]);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    if ($result) {
-        $user = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
+    $user = $_SESSION['user']['name'];
 }
 $time_to_close = 3600;
 $lot_info = [];
 $categories = [];
-$sql_cat = "SELECT * FROM category
+$link_index = 'href = "/"';
+$sql = "SELECT * FROM category
     ORDER BY id";
-$result_cat = mysqli_query($link, $sql_cat);
-if ($result_cat) {
-    $categories = mysqli_fetch_all($result_cat, MYSQLI_ASSOC);
-}else {
-    mysqli_error($link);
-}
+$categories = result($link, $sql);
 ?>

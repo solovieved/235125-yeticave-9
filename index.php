@@ -1,21 +1,15 @@
 <?php
 require_once 'init.php';
+require_once 'winner.php';
 
-$sql_lot ="SELECT lot.id, lot.name, lot.start_price, lot.image, lot.date_completion, category.name AS cat
+$sql ="SELECT lot.id, lot.name, lot.start_price, IFNULL(MAX(bet.price), lot.start_price) AS price, lot.image, lot.date_completion, category.name AS cat, COUNT(bet.price) AS count_bet
     FROM lot
     JOIN category ON lot.category = category.id
+    LEFT JOIN bet ON bet.lot = lot.id
     WHERE lot.date_completion >= NOW()
     GROUP BY lot.id
-    ORDER BY lot.date_creation DESC";
-$result_lot = mysqli_query($link, $sql_lot);
-
-if ($result_lot) {
-    $lot_info = mysqli_fetch_all($result_lot, MYSQLI_ASSOC);
-}
-else {
-    mysqli_error($link);
-}
-
+    ORDER BY lot.date_creation DESC LIMIT 6";
+$lot_info = result($link, $sql);
 $content = include_template('index.php', [
     'categories' => $categories,
     'lot_info' => $lot_info,
@@ -23,11 +17,13 @@ $content = include_template('index.php', [
 ]);
 
 $title = 'Главная';
+$link_index = '';
 $layout_content = include_template('layout.php', [
     'title' => $title,
     'content' => $content,
     'categories' => $categories,
-    'user' => $user
+    'user' => $user,
+    'link_index' => $link_index
 ]);
 
 print($layout_content);

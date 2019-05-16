@@ -46,7 +46,7 @@
             </div>
             <div class="form__item form__item--small <?= isset($errors['lot-step']) ? "form__item--invalid" : ""; ?>">
                 <label for="lot-step">Шаг ставки <sup>*</sup></label>
-                <input id="lot-step" type="text" name="lot-step" placeholder="0" value="<?= $lot_data['lot-rate'] ?? ""; ?>">
+                <input id="lot-step" type="text" name="lot-step" placeholder="0" value="<?= $lot_data['lot-step'] ?? ""; ?>">
                 <span class="form__error"><?= $errors['lot-step'] ?? ""; ?></span>
             </div>
             <div class="form__item <?= isset($errors['lot-date']) ? "form__item--invalid" : ""; ?>">
