@@ -32,11 +32,14 @@ foreach ($categories as $key => $value) {
     }
 }
 
+$link = "/all-lots.php?cat=$category_id";
+
 $pagination = include_template('pagination.php', [
     'pages' => $pages,
     'category_id'=> $category_id,
     'cur_page' => $cur_page,
-    'pages_count' => $pages_count
+    'pages_count' => $pages_count,
+    'link' => $link
 ]);
 
 $content = include_template('all-lots.php', [

@@ -1,23 +1,11 @@
-<main class="container">
-    <section class="promo">
-        <h2 class="promo__title">Нужен стафф для катки?</h2>
-        <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
-        <ul class="promo__list">
-            <!--список из массива категорий-->
-            <?php foreach ($categories as $key => $value) : ?>
-                <li class="promo__item promo__item--<?= $value['character_code']; ?>">
-                    <a class="promo__link" href="all-lots.php?cat=<?= $value['id']?>"><?= $value['name']; ?></a>
-                </li>
-            <?php endforeach; ?>
-
-        </ul>
-    </section>
-    <section class="lots">
-        <div class="lots__header">
-            <h2>Открытые лоты</h2>
-        </div>
-        <ul class="lots__list">
-            <!--список из массива с товарами-->
+<main>
+    <nav class="nav">
+        <?= include_template('menu-top.php', ['categories' => $categories]); ?>
+    </nav>
+    <div class="container">
+        <section class="lots">
+            <h2>Результаты поиска по запросу «<span><?= $search; ?></span>»</h2>
+            <ul class="lots__list">
             <?php foreach ($lot_info as $key => $item) : ?>
                 <li class="lots__item lot">
                     <div class="lot__image">
@@ -38,7 +26,8 @@
                     </div>
                 </li>
             <?php endforeach; ?>
-
-        </ul>
-    </section>
+            </ul>
+        </section>
+        <?= $pagination; ?>
+    </div>
 </main>
