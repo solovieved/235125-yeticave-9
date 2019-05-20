@@ -9,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         FROM lot
         WHERE MATCH(name, description) AGAINST(?)";
     $stmt = db_get_prepare_stmt($link, $sql, [$search]);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
     $items_count = mysqli_fetch_assoc($result)['cnt'];
     $pages_count = ceil($items_count / $page_items);
     $offset = ($cur_page - 1) * $page_items;
@@ -21,11 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         WHERE MATCH(lot.name, lot.description) AGAINST(?)
         GROUP BY lot.id
         ORDER BY lot.date_creation DESC LIMIT $page_items OFFSET $offset";
-	$stmt = db_get_prepare_stmt($link, $sql, [$search]);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
-	if ($result) {
-		$lot_info = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $stmt = db_get_prepare_stmt($link, $sql, [$search]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    if ($result) {
+        $lot_info = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
 }

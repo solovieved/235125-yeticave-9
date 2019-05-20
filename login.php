@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-	if (empty($errors['email'])) {
+    if (empty($errors['email'])) {
         $sql = "SELECT * FROM user WHERE email = ?";
         $stmt = db_get_prepare_stmt($link, $sql, [trim($login_data['email'])]);
         mysqli_stmt_execute($stmt);

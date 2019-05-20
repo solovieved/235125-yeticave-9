@@ -14,7 +14,7 @@ if (isset($_SESSION['user'])) {
         WHERE user = $user_id
         GROUP BY lot)
         ORDER BY bet.date_bet desc";
-    $user_bet = result($link, $sql);
+    $user_bet = get_array($link, $sql);
 }
 $title = 'Мои ставки';
 $content = include_template('my-bets.php', [

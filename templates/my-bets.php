@@ -6,14 +6,14 @@
         <h2>Мои ставки</h2>
         <table class="rates__list">
             <?php foreach ($user_bet as $key => $item) : ?>
-                <tr class="rates__item <?= ((int)$item['winner'] === $user_id) ? 'rates__item--win' : ''; ?><?= ((strtotime($item['date_completion']) < strtotime('now')) && ($item['winner'] !== $user_id)) ? 'rates__item--end' : ''; ?>">
+                <tr class="rates__item <?= (intval($item['winner']) === intval($user_id)) ? 'rates__item--win' : ''; ?><?= ((strtotime($item['date_completion']) < strtotime('now')) && (intval($item['winner']) !== intval($user_id))) ? 'rates__item--end' : ''; ?>">
                     <td class="rates__info">
                         <div class="rates__img">
                             <img src="<?= $item['image']; ?>" width="54" height="40" alt="Сноуборд">
                         </div>
                         <div>
                             <h3 class="rates__title"><a href="lot.php?id=<?= $item['lot']; ?>"><?= $item['name']; ?></a></h3>
-                            <?php if ((int)$item['winner'] === $user_id) : ?>
+                            <?php if (intval($item['winner']) === intval($user_id)) : ?>
                                 <p><?= $item['contacts']; ?></p>
                             <?php endif; ?>
                         </div>

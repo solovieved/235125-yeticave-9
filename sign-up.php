@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if(empty($errors['email']) && !filter_var($account_data['email'], FILTER_VALIDATE_EMAIL)) {
+    if (empty($errors['email']) && !filter_var($account_data['email'], FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Вы ввели некорректный email';
     }
 
@@ -65,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = password_hash($account_data['password'], PASSWORD_DEFAULT);
         $sql = "INSERT INTO user(date_registration, email, name, password, contacts)
         VALUES (NOW(), ?, ?, ?, ?)";
-        $stmt = db_get_prepare_stmt($link, $sql, [$account_data['email'], $account_data['name'], $password, $account_data['message']]);
+        $stmt = db_get_prepare_stmt($link, $sql,
+            [$account_data['email'], $account_data['name'], $password, $account_data['message']]);
         $res = mysqli_stmt_execute($stmt);
 
         if ($res) {

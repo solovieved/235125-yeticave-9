@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if(empty($errors['lot-name']) && strlen($lot_data['lot-name']) > $lot_name_max_length) {
+    if (empty($errors['lot-name']) && strlen($lot_data['lot-name']) > $lot_name_max_length) {
         $errors['lot-name'] = 'Наименование лота не должно превышать 64 символа';
     }
 
@@ -49,15 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if(empty($errors['lot-rate']) && intval($lot_data['lot-rate']) === 0) {
+    if (empty($errors['lot-rate']) && intval($lot_data['lot-rate']) === 0) {
         $errors['lot-rate'] = 'Введите число больше 0';
     }
 
-    if(empty($errors['lot-step']) && intval($lot_data['lot-step']) === 0) {
+    if (empty($errors['lot-step']) && intval($lot_data['lot-step']) === 0) {
         $errors['lot-step'] = 'Введите число больше 0';
     }
 
-    if(empty($errors['lot-date']) && !is_date_valid($lot_data['lot-date'])) {
+    if (empty($errors['lot-date']) && !is_date_valid($lot_data['lot-date'])) {
         $errors['lot-date'] = 'Введите дату в верном формате';
     }
 
@@ -86,11 +86,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($file_type === 'image/png') {
             $ext = '.png';
         }
-        $furl = 'uploads/' . $rand_name . $ext;
-        move_uploaded_file($tmp_name, $furl);
+        $furl = '/uploads/' . $rand_name . $ext;
+        move_uploaded_file($tmp_name, $_SERVER['DOCUMENT_ROOT'] . $furl);
         $sql = "INSERT INTO lot(name, description, image, start_price, date_completion, bet_step, author, category)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = db_get_prepare_stmt($link, $sql, [$lot_data['lot-name'], $lot_data['message'], $furl, intval($lot_data['lot-rate']), $lot_data['lot-date'], intval($lot_data['lot-step']), $_SESSION['user']['id'], $lot_data['category']]);
+        $stmt = db_get_prepare_stmt($link, $sql, [
+            $lot_data['lot-name'],
+            $lot_data['message'],
+            $furl,
+            intval($lot_data['lot-rate']),
+            $lot_data['lot-date'],
+            intval($lot_data['lot-step']),
+            $_SESSION['user']['id'],
+            $lot_data['category']
+        ]);
         $res = mysqli_stmt_execute($stmt);
 
         if ($res) {
