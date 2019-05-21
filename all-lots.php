@@ -13,7 +13,7 @@ $items_count = mysqli_fetch_assoc($result)['cnt'];
 $pages_count = ceil($items_count / $page_items);
 $offset = ($cur_page - 1) * $page_items;
 $pages = range(1, $pages_count);
-$sql ="SELECT lot.id, lot.name, lot.start_price, IFNULL(MAX(bet.price), lot.start_price) AS price, lot.image, lot.date_completion, category.name AS cat, COUNT(bet.price) AS count_bet
+$sql = "SELECT lot.id, lot.name, lot.start_price, IFNULL(MAX(bet.price), lot.start_price) AS price, lot.image, lot.date_completion, category.name AS cat, COUNT(bet.price) AS count_bet
     FROM lot
     JOIN category ON lot.category = category.id
     LEFT JOIN bet ON bet.lot = lot.id
@@ -36,7 +36,7 @@ $link = "/all-lots.php?cat=$category_id";
 
 $pagination = include_template('pagination.php', [
     'pages' => $pages,
-    'category_id'=> $category_id,
+    'category_id' => $category_id,
     'cur_page' => $cur_page,
     'pages_count' => $pages_count,
     'link' => $link

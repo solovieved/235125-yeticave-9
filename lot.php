@@ -5,16 +5,16 @@ if (!isset($_GET['id'])) {
     http_response_code(404);
     $title = 'Страница не найдена';
     $content = include_template('404.php', ['categories' => $categories]);
-}else {
+} else {
     $id = intval($_GET['id']);
-    $sql ="SELECT lot.id, lot.name, lot.description, IFNULL(MAX(bet.price), lot.start_price) AS price, IFNULL(MAX(bet.price), lot.start_price) + bet_step AS min, lot.image, lot.date_completion, category.name AS cat FROM lot
+    $sql = "SELECT lot.id, lot.name, lot.description, IFNULL(MAX(bet.price), lot.start_price) AS price, IFNULL(MAX(bet.price), lot.start_price) + bet_step AS min, lot.image, lot.date_completion, category.name AS cat FROM lot
     JOIN category ON category.id = lot.category
     LEFT JOIN bet ON bet.lot = lot.id
     WHERE lot.id = $id
     GROUP BY lot.id
     ORDER BY lot.date_creation DESC";
 
-    $lot_info = result($link, $sql);
+    $lot_info = get_array($link, $sql);
     foreach ($lot_info as $key => $item) {
         $title = $item['name'];
     }
@@ -32,7 +32,7 @@ if (isset($_GET['id'])) {
 $lot_id = $_GET['id'];
 $sql = "SELECT lot.author FROM lot
 WHERE lot.id = $lot_id";
-$lot_author = result($link, $sql);
+$lot_author = get_array($link, $sql);
 
 if (isset($_SESSION['user']['id'])) {
     $user_id = $_SESSION['user']['id'];
@@ -41,7 +41,7 @@ if (isset($_SESSION['user']['id'])) {
     JOIN user
     WHERE lot = $id
     ORDER BY date_bet DESC LIMIT 1";
-    $user_bet = result($link, $sql);
+    $user_bet = get_array($link, $sql);
 
     if (isset($user_bet[0]['user']) && (int)$user_bet[0]['user'] === $user_id) {
         $show_form = false;
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['cost'] = 'Пользователь не может делать несколько ставок подряд';
     }
 
-    if((empty($errors['cost']) && intval($bet_data['cost']) === 0) || (empty($errors['cost']) && $_POST['cost'] < $lot_info[0]['min'])) {
+    if ((empty($errors['cost']) && intval($bet_data['cost']) === 0) || (empty($errors['cost']) && $_POST['cost'] < $lot_info[0]['min'])) {
         $errors['cost'] = 'Введите число не меньше минимальной стаки';
     };
 
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         VALUES (NOW(), $price, $user_id, $lot_id)";
         $result = mysqli_query($link, $sql);
         if ($result) {
-            header("Location: ".$_SERVER['REQUEST_URI']);
+            header("Location: " . $_SERVER['REQUEST_URI']);
         }
     }
 }
@@ -95,9 +95,9 @@ $sql = "SELECT bet.date_bet, bet.price, user.name FROM bet
     JOIN user ON user.id = bet.user
     WHERE lot = $lot_id
     ORDER BY bet.date_bet DESC";
-    $result = mysqli_query($link, $sql);
+$result = mysqli_query($link, $sql);
 
-$bet = result($link, $sql);
+$bet = get_array($link, $sql);
 
 $content = include_template('lot.php', [
     'categories' => $categories,

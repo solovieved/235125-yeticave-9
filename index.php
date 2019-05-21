@@ -1,15 +1,15 @@
 <?php
 require_once 'init.php';
-require_once 'winner.php';
+require_once 'getwinner.php';
 
-$sql ="SELECT lot.id, lot.name, lot.start_price, IFNULL(MAX(bet.price), lot.start_price) AS price, lot.image, lot.date_completion, category.name AS cat, COUNT(bet.price) AS count_bet
+$sql = "SELECT lot.id, lot.name, lot.start_price, IFNULL(MAX(bet.price), lot.start_price) AS price, lot.image, lot.date_completion, category.name AS cat, COUNT(bet.price) AS count_bet
     FROM lot
     JOIN category ON lot.category = category.id
     LEFT JOIN bet ON bet.lot = lot.id
     WHERE lot.date_completion >= NOW()
     GROUP BY lot.id
     ORDER BY lot.date_creation DESC LIMIT 6";
-$lot_info = result($link, $sql);
+$lot_info = get_array($link, $sql);
 $content = include_template('index.php', [
     'categories' => $categories,
     'lot_info' => $lot_info,

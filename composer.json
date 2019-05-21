@@ -1,0 +1,12 @@
+{
+    "name": "edgar/yticave",
+    "authors": [
+        {
+            "name": "Soloviev Edgar",
+            "email": "soloviev.ed16@gmail.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2"
+    }
+}
