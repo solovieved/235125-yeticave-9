@@ -3,6 +3,16 @@ require_once 'init.php';
 
 if (!isset($_SESSION['user'])) {
     http_response_code(403);
+    $title = 'Доступ запрещен';
+    $content = include_template('403.php', ['categories' => $categories]);
+    $layout_content = include_template('layout.php', [
+        'title' => $title,
+        'content' => $content,
+        'categories' => $categories,
+        'user' => $user,
+        'link_index' => $link_index,
+    ]);
+    print($layout_content);
     exit;
 }
 
@@ -18,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'message' => 'Напишите описание лота',
         'lot-rate' => 'Введите начальную цену',
         'lot-step' => 'Введите шаг ставки',
-        'lot-date' => 'Введите дату в формате ГГГГ-ММ-ДД'
+        'lot-date' => 'Введите дату в формате ГГГГ-ММ-ДД',
     ];
 
     foreach ($required as $key => $value) {
@@ -79,15 +89,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $rand_name = md5(time() . mt_rand(0, 9999));
+        $rand_name = md5(time().mt_rand(0, 9999));
         if ($file_type === 'image/jpeg') {
             $ext = '.jpg';
         }
         if ($file_type === 'image/png') {
             $ext = '.png';
         }
-        $furl = '/uploads/' . $rand_name . $ext;
-        move_uploaded_file($tmp_name, $_SERVER['DOCUMENT_ROOT'] . $furl);
+        $furl = '/uploads/'.$rand_name.$ext;
+        move_uploaded_file($tmp_name, $_SERVER['DOCUMENT_ROOT'].$furl);
         $sql = "INSERT INTO lot(name, description, image, start_price, date_completion, bet_step, author, category)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = db_get_prepare_stmt($link, $sql, [
@@ -98,13 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lot_data['lot-date'],
             intval($lot_data['lot-step']),
             $_SESSION['user']['id'],
-            $lot_data['category']
+            $lot_data['category'],
         ]);
-        $res = mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_execute($stmt);
 
-        if ($res) {
+        if ($result) {
             $lot_id = mysqli_insert_id($link);
-            header("Location: /lot.php?id=" . $lot_id);
+            header("Location: /lot.php?id=".$lot_id);
         } else {
             exit('Технические неполадки на сайте.Мы уже работаем над устранением проблемы.');
         }
@@ -114,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $content = include_template('add.php', [
     'lot_data' => $lot_data,
     'errors' => $errors,
-    'categories' => $categories
+    'categories' => $categories,
 ]);
 
 $title = 'Добаление лота';
@@ -123,7 +133,7 @@ $layout_content = include_template('layout.php', [
     'content' => $content,
     'categories' => $categories,
     'user' => $user,
-    'link_index' => $link_index
+    'link_index' => $link_index,
 ]);
 
 print($layout_content);

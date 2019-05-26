@@ -1,8 +1,11 @@
 <?php
 require_once 'init.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if (isset($_GET['search'])) {
     $cur_page = $_GET['page'] ?? 1;
+    if (isset($_GET['page']) && intval($_GET['page']) <= 0) {
+        $cur_page = 1;
+    }
     $search = trim($_GET['search'] ?? '');
     $page_items = 9;
     $sql = "SELECT COUNT(*) as cnt
@@ -36,14 +39,14 @@ $pagination = include_template('pagination.php', [
     'pages' => $pages,
     'cur_page' => $cur_page,
     'pages_count' => $pages_count,
-    'link' => $link
+    'link' => $link,
 ]);
 
 $content = include_template('search.php', [
     'categories' => $categories,
     'search' => $search,
     'lot_info' => $lot_info,
-    'pagination' => $pagination
+    'pagination' => $pagination,
 ]);
 
 $title = 'Результаты поиска';
@@ -52,7 +55,7 @@ $layout_content = include_template('layout.php', [
     'content' => $content,
     'categories' => $categories,
     'user' => $user,
-    'link_index' => $link_index
+    'link_index' => $link_index,
 ]);
 
 print($layout_content);

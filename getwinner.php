@@ -4,9 +4,8 @@ $sql = "SELECT lot.id, lot.name, bet.user FROM bet
     WHERE bet.id IN (SELECT MAX(id) FROM bet
     GROUP BY lot) && lot.date_completion <= NOW() && lot.winner is NULL";
 $lot = get_array($link, $sql);
-
-foreach ($lot as $key => $value) {
-    if ($value['user']) {
+if (!empty($lot)) {
+    foreach ($lot as $key => $value) {
         $sql = "UPDATE lot SET winner = ?
             WHERE id = ?";
         $stmt = db_get_prepare_stmt($link, $sql, [$value['user'], $value['id']]);
@@ -16,7 +15,7 @@ foreach ($lot as $key => $value) {
         if ($result) {
             $res = mysqli_fetch_all($result, MYSQLI_ASSOC);
         }
-        /* Не работает отправка */
+
         $transport = new Swift_SmtpTransport("phpdemo.ru", 25);
         $transport->setUsername("keks@phpdemo.ru");
         $transport->setPassword("htmlacademy");
@@ -31,13 +30,12 @@ foreach ($lot as $key => $value) {
         $message->setFrom(['keks@phpdemo.ru' => 'Yeticave']);
         $message->setTo($winner[0]['email'], $winner[0]['name']);
         $msg_content = include_template('email.php', [
-            'winner' => $winner
+            'winner' => $winner,
+            'value' => $value,
         ]);
         $message->setBody($msg_content, 'text/html');
-
         $mailer->send($message);
     }
 }
 
 ?>
-

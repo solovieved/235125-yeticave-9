@@ -17,7 +17,7 @@ $sql = "SELECT lot.id, lot.name, lot.start_price, IFNULL(MAX(bet.price), lot.sta
     FROM lot
     JOIN category ON lot.category = category.id
     LEFT JOIN bet ON bet.lot = lot.id
-    WHERE category = $category_id
+    WHERE category = $category_id && lot.date_completion >= NOW()
     GROUP BY lot.id
     ORDER BY lot.date_creation DESC LIMIT $page_items OFFSET $offset";
 $result = mysqli_query($link, $sql);
@@ -39,7 +39,7 @@ $pagination = include_template('pagination.php', [
     'category_id' => $category_id,
     'cur_page' => $cur_page,
     'pages_count' => $pages_count,
-    'link' => $link
+    'link' => $link,
 ]);
 
 $content = include_template('all-lots.php', [
@@ -47,7 +47,7 @@ $content = include_template('all-lots.php', [
     'title' => $title,
     'lot_info' => $lot_info,
     'time_to_close' => $time_to_close,
-    'pagination' => $pagination
+    'pagination' => $pagination,
 ]);
 
 $layout_content = include_template('layout.php', [
@@ -55,7 +55,7 @@ $layout_content = include_template('layout.php', [
     'content' => $content,
     'categories' => $categories,
     'user' => $user,
-    'link_index' => $link_index
+    'link_index' => $link_index,
 ]);
 
 print($layout_content);
