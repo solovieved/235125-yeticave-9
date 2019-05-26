@@ -56,6 +56,3 @@ LEFT JOIN bet ON bet.lot = lot.id
 WHERE lot.date_completion >= NOW()
 GROUP BY lot.id
 ORDER BY lot.date_creation DESC;
-
-/*полнотекстовый индекс*/
-CREATE FULLTEXT INDEX search ON lot(name, description);

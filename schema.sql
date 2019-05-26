@@ -19,7 +19,7 @@ CREATE TABLE user (
 CREATE TABLE lot (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  name VARCHAR(64) NOT NULL,
+  	name VARCHAR(64) NOT NULL,
 	description TEXT NOT NULL,
 	image VARCHAR(128),
 	start_price INT NOT NULL,
@@ -44,3 +44,5 @@ CREATE TABLE bet (
 	FOREIGN KEY (user) REFERENCES user(id),
 	FOREIGN KEY (lot) REFERENCES lot(id)
 );
+
+CREATE FULLTEXT INDEX search ON lot(name, description);

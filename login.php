@@ -12,7 +12,7 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = [
         'email' => 'Введите e-mail',
-        'password' => 'Введите пароль'
+        'password' => 'Введите пароль',
     ];
 
     foreach ($required as $key => $value) {
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $content = include_template('login.php', [
     'login_data' => $login_data,
     'errors' => $errors,
-    'categories' => $categories
+    'categories' => $categories,
 ]);
 
 $title = 'Вход';
@@ -60,7 +60,7 @@ $layout_content = include_template('layout.php', [
     'content' => $content,
     'categories' => $categories,
     'user' => $user,
-    'link_index' => $link_index
+    'link_index' => $link_index,
 ]);
 
 print($layout_content);

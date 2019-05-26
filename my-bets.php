@@ -2,6 +2,16 @@
 require_once 'init.php';
 if (!isset($_SESSION['user'])) {
     http_response_code(403);
+    $title = 'Доступ запрещен';
+    $content = include_template('403.php', ['categories' => $categories]);
+    $layout_content = include_template('layout.php', [
+        'title' => $title,
+        'content' => $content,
+        'categories' => $categories,
+        'user' => $user,
+        'link_index' => $link_index,
+    ]);
+    print($layout_content);
     exit;
 }
 if (isset($_SESSION['user'])) {
@@ -22,7 +32,7 @@ $content = include_template('my-bets.php', [
     'title' => $title,
     'user_bet' => $user_bet,
     'time_to_close' => $time_to_close,
-    'user_id' => $user_id
+    'user_id' => $user_id,
 ]);
 
 $layout_content = include_template('layout.php', [
@@ -30,7 +40,7 @@ $layout_content = include_template('layout.php', [
     'content' => $content,
     'categories' => $categories,
     'user' => $user,
-    'link_index' => $link_index
+    'link_index' => $link_index,
 ]);
 
 print($layout_content);

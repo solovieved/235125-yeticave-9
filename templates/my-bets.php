@@ -12,7 +12,9 @@
                             <img src="<?= $item['image']; ?>" width="54" height="40" alt="Сноуборд">
                         </div>
                         <div>
-                            <h3 class="rates__title"><a href="lot.php?id=<?= $item['lot']; ?>"><?= $item['name']; ?></a></h3>
+                            <h3 class="rates__title"><a
+                                    href="lot.php?id=<?= $item['lot']; ?>"><?= htmlspecialchars($item['name']); ?></a>
+                            </h3>
                             <?php if (intval($item['winner']) === intval($user_id)) : ?>
                                 <p><?= $item['contacts']; ?></p>
                             <?php endif; ?>
@@ -23,17 +25,18 @@
                     </td>
                     <td class="rates__timer">
                         <?php if (strtotime($item['date_completion']) > time()) : ?>
-                            <div class="timer <?= (strtotime($item['date_completion']) - strtotime('now') <= $time_to_close && strtotime($item['date_completion']) - strtotime('now') > 0) ? 'timer--finishing' : '' ?>">
+                            <div
+                                class="timer <?= (strtotime($item['date_completion']) - strtotime('now') <= $time_to_close && strtotime($item['date_completion']) - strtotime('now') > 0) ? 'timer--finishing' : '' ?>">
                                 <?= get_time_completion($item['date_completion']); ?>
                             </div>
-                        <?php elseif ((int)$item['winner'] === $user_id) : ?>
+                        <?php elseif (intval($item['winner']) === intval($user_id)) : ?>
                             <div class="timer timer--win">Ставка выиграла</div>
                         <?php else : ?>
                             <div class="timer timer--end">Торги окончены</div>
                         <?php endif; ?>
                     </td>
                     <td class="rates__price">
-                        <?= get_formatted_amount($item['price']) . ' р'; ?>
+                        <?= get_formatted_amount($item['price']).' р'; ?>
                     </td>
                     <td class="rates__time">
                         <?= show_time(strtotime($item['date_bet'])); ?>
