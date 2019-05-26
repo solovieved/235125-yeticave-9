@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'email' => 'Введите e-mail',
         'password' => 'Введите пароль',
         'name' => 'Введите имя',
-        'message' => 'Напишите как с вами связаться'
+        'message' => 'Напишите как с вами связаться',
     ];
 
     foreach ($required as $key => $value) {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['email'] = 'Вы ввели некорректный email';
     }
 
-    if (empty($errors)) {
+    if (empty($errors['email'])) {
         $sql = "SELECT id FROM user WHERE email = ?";
         $stmt = db_get_prepare_stmt($link, $sql, [$account_data['email']]);
         mysqli_stmt_execute($stmt);
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $content = include_template('sign-up.php', [
     'account_data' => $account_data,
     'errors' => $errors,
-    'categories' => $categories
+    'categories' => $categories,
 ]);
 
 $title = 'Регистрация';
@@ -90,7 +90,7 @@ $layout_content = include_template('layout.php', [
     'content' => $content,
     'categories' => $categories,
     'user' => $user,
-    'link_index' => $link_index
+    'link_index' => $link_index,
 ]);
 
 print($layout_content);

@@ -16,7 +16,8 @@
                 <div class="lot-item__right">
                     <div class="lot-item__state">
                         <?php if (strtotime($item['date_completion']) > time()) : ?>
-                            <div class="lot-item__timer timer <?= (strtotime($item['date_completion']) - strtotime('now') <= $time_to_close && strtotime($item['date_completion']) - strtotime('now') > 0) ? 'timer--finishing' : '' ?>">
+                            <div
+                                class="lot-item__timer timer <?= (strtotime($item['date_completion']) - strtotime('now') <= $time_to_close && strtotime($item['date_completion']) - strtotime('now') > 0) ? 'timer--finishing' : '' ?>">
                                 <?= get_time_completion($item['date_completion']); ?>
                             </div>
                         <?php else : ?>
@@ -32,10 +33,12 @@
                             </div>
                         </div>
                         <?php if ($show_form) : ?>
-                            <form class="lot-item__form" action="/lot.php?id=<?= $item['id'] ?>" method="post" autocomplete="off">
+                            <form class="lot-item__form" action="/lot.php?id=<?= $item['id'] ?>" method="post"
+                                  autocomplete="off">
                                 <p class="lot-item__form-item form__item <?= count($errors) ? "form__item--invalid" : ""; ?>">
                                     <label for="cost">Ваша ставка</label>
-                                    <input id="cost" type="text" name="cost" placeholder="<?= $item['min']; ?>" value="<?= $bet_data['cost'] ?? ""; ?>">
+                                    <input id="cost" type="text" name="cost" placeholder="<?= $item['min']; ?>"
+                                           value="<?= $bet_data['cost'] ?? ""; ?>">
                                     <span class="form__error"><?= $errors['cost'] ?? ""; ?></span>
                                 </p>
                                 <button type="submit" class="button">Сделать ставку</button>
@@ -47,7 +50,7 @@
                         <table class="history__list">
                             <?php foreach ($bet as $key => $item) : ?>
                                 <tr class="history__item">
-                                    <td class="history__name"><?= $item['name']; ?></td>
+                                    <td class="history__name"><?= htmlspecialchars($item['name']); ?></td>
                                     <td class="history__price"><?= $item['price']; ?></td>
                                     <td class="history__time"><?= show_time(strtotime($item['date_bet'])); ?></td>
                                 </tr>
