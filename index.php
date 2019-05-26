@@ -9,7 +9,7 @@ $sql = "SELECT lot.id, lot.name, lot.start_price, IFNULL(MAX(bet.price), lot.sta
     WHERE lot.date_completion >= NOW()
     GROUP BY lot.id
     ORDER BY lot.date_creation DESC
-    LIMIT 6"; /*исходя из макета на главной странице отображаю 6 самых свежих лотов.на остальных страницах по 9, если больше появляется пагинация*/
+    LIMIT 6"; /*исходя из макета на главной странице отображаю 6 самых свежих лотов.на остальных страницах по 9, если больше появляется пагинация.*/
 $lot_info = get_array($link, $sql);
 $content = include_template('index.php', [
     'categories' => $categories,

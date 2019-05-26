@@ -1,5 +1,6 @@
 <?php
 require_once 'init.php';
+
 if (isset($_GET['cat'])) {
     $category_id = $_GET['cat'];
 }
