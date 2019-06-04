@@ -27,4 +27,5 @@ $link_index = 'href = "/"';
 $sql = "SELECT * FROM category
     ORDER BY id";
 $categories = get_array($link, $sql);
+date_default_timezone_set('Europe/Minsk');
 ?>

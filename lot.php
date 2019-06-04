@@ -59,6 +59,7 @@ if (isset($_SESSION['user']['id'])) {
     }
 };
 
+$date = date('Y.m.d H:i:s', time()); // часовой пояс в init.php
 if ($show_form && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = ['cost'];
     if (isset($_POST['cost']) && !empty(trim($_POST['cost']))) {
@@ -74,7 +75,7 @@ if ($show_form && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors) && isset($bet_data['cost'])) {
         $price = $bet_data['cost'];
         $sql = "INSERT INTO bet(date_bet, price, user, lot)
-        VALUES (NOW(), $price, $user_id, $id)";
+        VALUES ('$date', $price, $user_id, $id)";
         $result = mysqli_query($link, $sql);
         if ($result) {
             header("Location: ".$_SERVER['REQUEST_URI']);

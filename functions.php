@@ -51,9 +51,8 @@ function show_time($time)
     } elseif ($time_ago < 86400) {
         return intval($time_ago / 3600).' '.get_noun_plural_form($time_ago / 3600, 'час', 'часа',
                 'часов').' назад';
-    } else {
-        return date('d.m.y', $time).' в '.date('H:i', $time);
     }
+    return date('d.m.y', $time).' в '.date('H:i', $time);
 }
 
 /**
